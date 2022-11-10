@@ -2,6 +2,8 @@ package online.store.model.request;
 
 import java.util.List;
 
+import online.store.model.ProductInfo;
+
 public class CheckoutRequest {
     private String firstName;
     private String lastName;
@@ -9,26 +11,6 @@ public class CheckoutRequest {
     private String shippingAddress;
     private List<ProductInfo> products;
     private String creditCard;
-
-    public static class ProductInfo{
-        private long productId;
-        private long quantity;
-
-        public long getProductId() {
-            return productId;
-        }
-        public void setProductId(long prouctId) {
-            this.productId = prouctId;
-        }
-        public long getQuantity() {
-            return quantity;
-        }
-        public void setQuantity(long quantity) {
-            this.quantity = quantity;
-        }
-
-        
-    }
 
     public String getFirstName() {
         return firstName;

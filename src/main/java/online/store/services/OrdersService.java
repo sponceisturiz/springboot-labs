@@ -10,15 +10,14 @@ import online.store.repositories.OrderRepository;
 @Service
 public class OrdersService {
 
-
-    private final long maxNumberOfItems;
+    @Value("${products.service.max-number-of-items:25}")
+    private long maxNumberOfItems;
 
     private final OrderRepository orderRepository;
     
     
 
-    public OrdersService(OrderRepository orderRepository, @Value("${products.service.max-number-of-items:25}")long maxNumberOfItems) {
-        this.maxNumberOfItems = maxNumberOfItems;
+    public OrdersService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 

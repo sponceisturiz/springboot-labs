@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import online.store.exceptions.CreditCardValidationException;
 import online.store.model.Order;
+import online.store.model.ProductInfo;
 import online.store.model.request.CheckoutRequest;
 import online.store.services.CreditCardValidationService;
 import online.store.services.OrdersService;
@@ -47,7 +48,7 @@ public class CheckoutController {
 
         creditCardValidationService.validate(checkoutRequest.getCreditCard());
 
-        for(CheckoutRequest.ProductInfo productInfo: checkoutRequest.getProducts()){
+        for(ProductInfo productInfo: checkoutRequest.getProducts()){
             Order order = new Order(
                 checkoutRequest.getFirstName(),
                 checkoutRequest.getLastName(),

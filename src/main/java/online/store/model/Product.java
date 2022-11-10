@@ -8,15 +8,25 @@ import javax.persistence.*;
  * You do not need to modify this file
  */
 @Entity
-@Table(name = "Products")
+@Table(name = "PRODUCTS")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name="NAME")
     private String name;
+
+    @Column(name="DESCRIPTION")
     private String description;
+
+    @Column(name="IMAGEFILENAME")
     private String imageFileName;
+
+    @Column(name="PRICEUSD")
     private float priceUSD;
+
+    @Column(name="CATEGORY")
     private String category;
 
     protected Product() {
