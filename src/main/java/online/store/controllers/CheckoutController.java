@@ -2,6 +2,7 @@ package online.store.controllers;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.annotation.ObjectIdGenerators.UUIDGenerator;
 
 import online.store.exceptions.CreditCardValidationException;
 import online.store.model.Order;
@@ -35,7 +38,7 @@ public class CheckoutController {
     public ResponseEntity<String> checkout(@RequestBody CheckoutRequest checkoutRequest){
         Set<Order> orders =  new HashSet<>(checkoutRequest.getProducts().size());
 
-        if(isNullOrBlank(checkoutRequest.getCreditCard())) {
+        /*if(isNullOrBlank(checkoutRequest.getCreditCard())) {
             return new ResponseEntity<>("Credit card information is missing",                                  
                                          HttpStatus.PAYMENT_REQUIRED);
         }
@@ -46,7 +49,9 @@ public class CheckoutController {
             return new ResponseEntity<>("Last name is missing", HttpStatus.BAD_REQUEST);
         }
 
-        creditCardValidationService.validate(checkoutRequest.getCreditCard());
+        creditCardValidationService.validate(checkoutRequest.getCreditCard());*/
+
+        String uuid = UUID.randomUUID().toString();
 
         for(ProductInfo productInfo: checkoutRequest.getProducts()){
             Order order = new Order(
@@ -57,10 +62,14 @@ public class CheckoutController {
                 productInfo.getQuantity(),
                 productsService.getProductById(productInfo.getProductId()),
                 checkoutRequest.getCreditCard());
+
+                order.setUuid(uuid);
             
                 orders.add(order);
         }
-        ordersService.placeOrders(orders);
+
+        ordersService.preparePaymentOrder(orders, uuid, checkoutRequest);
+
         return new ResponseEntity<String>("success", HttpStatus.OK);
     }
 

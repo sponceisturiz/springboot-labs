@@ -2,6 +2,8 @@ package online.store.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author Michael Pogrebinsky - www.topdeveloperacademy.com
  * Represents an order of a product from our online store, stored in the Orders table.
@@ -14,6 +16,9 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @JsonIgnore
+    private String uuid;
 
     private String firstName;
     private String lastName;
@@ -71,4 +76,20 @@ public class Order {
     public String getCreditCard() {
         return creditCard;
     }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid){
+        this.uuid = uuid;
+    }
+
+    @Override
+    public String toString() {
+        return "Order [id=" + id + ", uuid=" + uuid + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
+                + email + ", shippingAddress=" + shippingAddress + ", quantity=" + quantity + ", creditCard="
+                + creditCard + ", product=" + product + "]";
+    }
+
 }

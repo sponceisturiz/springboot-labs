@@ -27,4 +27,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
      * @return a list of orders for the given user
      */
     List<Order> findByFirstNameAndLastName(String firstName, String lastName);
+
+    List<Order> findByUuid(String uuid);
 }

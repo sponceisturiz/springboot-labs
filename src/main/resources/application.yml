@@ -1,0 +1,63 @@
+server:
+  port: 9080
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      settings:
+        web-allow-others: true
+  datasource:
+    url: jdbc:h2:mem:in-memory-db;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    username: admin
+    password: 
+    jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
+      hibernate: 
+        ddl-auto: create-drop
+      show-sql: true
+      properties: 
+        hibernate:
+          format_sql: true
+  kafka:
+    listener:
+      missing-topics-fatal: false
+    producer:
+      group-id: kafka-online-store-cg
+      bootstrap-servers:
+      - localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: kafka-online-store-cg
+      enable-auto-commit: true
+      auto-offset-reset: earliest
+      bootstrap-servers:
+      - localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer        
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: online.store.broker.message
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+products:
+  service:
+    max-number-of-items: 10
+
+messaging:
+  topics:
+    order: "t-online-orders"
+    payment: "t-online-payments"
+    paymentReply: "t-online-payments-reply"
